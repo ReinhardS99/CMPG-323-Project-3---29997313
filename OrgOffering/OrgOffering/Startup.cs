@@ -29,7 +29,7 @@ namespace OrgOffering
         {
             services.AddDbContext<CMPG323_Project3Context>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("Persist Security Info=False;Initial Catalog=CMPG323_Project3;Data Source=REINHARD-PC\\SQLEXPRESS")));
+                    Configuration.GetConnectionString("Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=CMPG323_Project3;Data Source=REINHARD-PC\\SQLEXPRESS")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
