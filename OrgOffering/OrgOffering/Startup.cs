@@ -29,7 +29,7 @@ namespace OrgOffering
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=CMPG323_Project3;Data Source=REINHARD-PC\\SQLEXPRESS")));
+                    Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
