@@ -19,11 +19,22 @@ namespace OrgOffering.Controllers
             _context = context;
         }
 
+        /* // GET: Products
+         public async Task<IActionResult> Index()
+         {
+             return View(await _context.Product.ToListAsync());
+         }*/
+
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Product.ToListAsync());
+            ProductRepository productRepository = new ProductRepository();
+
+            var results = productRepository.GetAll();
+
+            return View(results);
         }
+
 
         // GET: Products/Details/5
         public async Task<IActionResult> Details(Guid? id)
