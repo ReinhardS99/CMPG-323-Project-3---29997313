@@ -9,13 +9,13 @@ using OrgOffering.Models;
 
 namespace OrgOffering.Data
 {
-    public partial class CMPG323_Project3Context : DbContext
+    public partial class CMPG323Context : DbContext
     {
-        public CMPG323_Project3Context()
+        public CMPG323Context()
         {
         }
 
-        public CMPG323_Project3Context(DbContextOptions<CMPG323_Project3Context> options)
+        public CMPG323Context(DbContextOptions<CMPG323Context> options)
             : base(options)
         {
         }
@@ -28,7 +28,7 @@ namespace OrgOffering.Data
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=CMPG323_Project3;Data Source=REINHARD-PC\\SQLEXPRESS");
+                optionsBuilder.UseSqlServer("Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=CMPG323;Data Source=REINHARD-PC\\SQLEXPRESS");
             }
         }
 

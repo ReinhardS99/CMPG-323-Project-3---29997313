@@ -12,9 +12,9 @@ namespace OrgOffering.Controllers
 {
     public class ServicesController : Controller
     {
-        private readonly CMPG323_Project3Context _context;
+        private readonly CMPG323Context _context;
 
-        public ServicesController(CMPG323_Project3Context context)
+        public ServicesController(CMPG323Context context)
         {
             _context = context;
         }

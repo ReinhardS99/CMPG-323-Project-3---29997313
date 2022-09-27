@@ -7,14 +7,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OrgOffering.Data;
 using OrgOffering.Models;
-//created
+
 namespace OrgOffering.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly CMPG323_Project3Context _context;
+        private readonly CMPG323Context _context;
 
-        public ProductsController(CMPG323_Project3Context context)
+        public ProductsController(CMPG323Context context)
         {
             _context = context;
         }
