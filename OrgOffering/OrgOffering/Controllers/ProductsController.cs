@@ -12,12 +12,13 @@ namespace OrgOffering.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly CMPG323Context _context;
-
-        public ProductsController(CMPG323Context context)
+        private readonly IProductRepository _productRepository;
+        public ProductsController(IProductRepository ProductRepository)
         {
-            _context = context;
+            _productRepository = ProductRepository;
         }
+
+       // public async Task<ActionResult<IEnumerable<Product>>> GetProduct([FromQuery]) Pa]
 
         /* // GET: Products
          public async Task<IActionResult> Index()
@@ -28,15 +29,69 @@ namespace OrgOffering.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            ProductRepository productRepository = new ProductRepository();
+            return View(_productRepository.GetAll());
+        }
 
-            var results = productRepository.GetAll();
+        public ActionResult<Product> GetProductId(Guid id)
+        {
+            var product = _productRepository.GetById(id);
 
-            return View(results);
+            if (product ==null)
+            {
+                return NotFound();
+            }
+            return Ok(product);
+        }
+
+        public ActionResult<Product> CreateProduct([FromBody] Product product)
+        {
+            if (product ==null)
+            {
+                return BadRequest("Product Object is null");
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model object");
+            }
+            _productRepository.CreateProduct(product);
+            return Ok(CreatedAtRoute("ProductId", new { id = product.ProductId }, product));
+      
         }
 
 
-        // GET: Products/Details/5
+        public IActionResult EditProduct( Guid Id, [FromBody] Product product)
+        {
+            if (product == null)
+            {
+                return BadRequest("Product Object is null");
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model object");
+            }
+            var dbproduct = _productRepository.GetProduct(Id);
+
+            if (!dbproduct.ProductId.Equals(Id))
+            {
+                return NotFound();
+            }
+            _productRepository.EditProduct(product);
+            return NoContent();
+        }
+
+        public IActionResult DeleteProduct(Guid id)
+        {
+            var dbproduct = _productRepository.GetProduct(id);
+            if (!dbproduct.ProductId.Equals(id))
+            {
+                return NotFound();
+            }
+            _productRepository.DeleteProduct(dbproduct);
+            return NoContent();
+        }
+
+
+       /* // GET: Products/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -160,6 +215,8 @@ namespace OrgOffering.Controllers
         private bool ProductExists(Guid id)
         {
             return _context.Product.Any(e => e.ProductId == id);
-        }
+        }*/
+
+
     }
 }

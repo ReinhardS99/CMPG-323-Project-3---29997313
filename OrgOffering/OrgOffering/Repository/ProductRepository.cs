@@ -1,22 +1,45 @@
 ﻿using OrgOffering.Data;
 using OrgOffering.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
-public class ProductRepository
+public class ProductRepository : GenericRepository<Product>, IProductRepository
 {
-    protected readonly CMPG323Context _context = new CMPG323Context();
-
-    // GET ALL: Products
-    public IEnumerable<Product> GetAll()
+    public ProductRepository(CMPG323Context context) : base(context)
     {
-        return _context.Product.ToList();
     }
 
-    // TO DO: Add ‘Get By Id’
-    // TO DO: Add ‘Create’
-    // TO DO: Add ‘Edit’
-    // TO DO: Add ‘Delete’
-    // TO DO: Add ‘Exists’
+    public void CreateProduct(Product product)
+    {
+        Create(product);
+    }
+
+    public void EditProduct(Product product)
+    {
+        Update(product);
+    }
+
+    public void DeleteProduct(Product product)
+    {
+        Remove(product);
+    }
+
+    public void ExistProduct(Product product)
+    {
+     //   return Task.FromResult(GenericRepository<Product>.GetProduct(Find()).Orderby);
+    //ditnotcomplete
+    }
+
+    public Product GetMostRecentProduct()
+    {
+        return _context.Product.OrderByDescending(product => product.CreatedDate).FirstOrDefault();
+    }
+
+    public Product GetProduct(Guid id)
+    {
+        return Find(p => p.ProductId == id).FirstOrDefault();
+    }
 }
 
