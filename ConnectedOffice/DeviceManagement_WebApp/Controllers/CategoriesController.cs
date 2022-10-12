@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DeviceManagement_WebApp.Data;
 using DeviceManagement_WebApp.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DeviceManagement_WebApp.Controllers
 {
+    [Authorize]
     public class CategoriesController : Controller
     {
         private readonly ConnectedOfficeContext _context;
@@ -22,7 +24,7 @@ namespace DeviceManagement_WebApp.Controllers
         // GET: Categories
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Category.ToListAsync());
+            return View(_context.Category.Where(d => d.CreatedBy.Equals(User.Identity.Name)));
         }
 
         // GET: Categories/Details/5
@@ -57,6 +59,7 @@ namespace DeviceManagement_WebApp.Controllers
         public async Task<IActionResult> Create([Bind("CategoryId,CategoryName,CategoryDescription,DateCreated")] Category category)
         {
             category.CategoryId = Guid.NewGuid();
+            category.CreatedBy = User.Identity.Name;
             _context.Add(category);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

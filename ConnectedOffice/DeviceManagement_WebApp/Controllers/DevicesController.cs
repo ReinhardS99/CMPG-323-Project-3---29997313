@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DeviceManagement_WebApp.Data;
 using DeviceManagement_WebApp.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DeviceManagement_WebApp.Controllers
 {
+    [Authorize]
     public class DevicesController : Controller
     {
         private readonly ConnectedOfficeContext _context;
@@ -22,7 +24,7 @@ namespace DeviceManagement_WebApp.Controllers
         // GET: Devices
         public async Task<IActionResult> Index()
         {
-            var connectedOfficeContext = _context.Device.Include(d => d.Category).Include(d => d.Zone);
+            var connectedOfficeContext = _context.Device.Include(d => d.Category).Include(d => d.Zone).Where(d => d.CreatedBy.ToLower().Equals(User.Identity.Name.ToLower()));
             return View(await connectedOfficeContext.ToListAsync());
         }
 
@@ -62,11 +64,10 @@ namespace DeviceManagement_WebApp.Controllers
         public async Task<IActionResult> Create([Bind("DeviceId,DeviceName,CategoryId,ZoneId,Status,IsActive,DateCreated")] Device device)
         {
             device.DeviceId = Guid.NewGuid();
+            device.CreatedBy = User.Identity.Name;
             _context.Add(device);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-
-
         }
 
         // GET: Devices/Edit/5

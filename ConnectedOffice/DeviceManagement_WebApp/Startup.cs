@@ -36,6 +36,7 @@ namespace DeviceManagement_WebApp
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
+
             services.AddRazorPages();
         }
 
